@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import express from 'express';
 import cloudinary from '../config/cloudinary';
 import { Readable } from 'stream';
 
 // Upload image to Cloudinary
-export const uploadImage = async (req: Request, res: Response) => {
+export const uploadImage = async (req: express.Request, res: express.Response) => {
     console.log('Upload request received');
     
     try {

@@ -1,15 +1,15 @@
-import { Request, Response } from 'express';
+import express from 'express';
 import Restaurant, { IRestaurant, RestaurantType } from '../models/Restaurant';
 import { Types } from 'mongoose';
 
 // @desc    Get all restaurants with optional type filter
 // @route   GET /api/restaurants
 // @access  Public
-export const getRestaurants = async (req: Request, res: Response): Promise<void> => {
+export const getRestaurants = async (req: express.Request, res: express.Response): Promise<void> => {
   try {
-    const { type } = req.query;
+    const { type } = req.query as { type?: string };
     const query: any = {};
-    
+
     if (type === 'DINE_IN' || type === 'DELIVERY') {
       query.type = type;
     } else if (type) {
@@ -19,9 +19,9 @@ export const getRestaurants = async (req: Request, res: Response): Promise<void>
       });
       return;
     }
-    
+
     const restaurants = await Restaurant.find(query).sort({ createdAt: -1 });
-    
+
     res.status(200).json({
       success: true,
       count: restaurants.length,
@@ -40,15 +40,15 @@ export const getRestaurants = async (req: Request, res: Response): Promise<void>
 // @desc    Create new restaurant
 // @route   POST /api/restaurants
 // @access  Private/Admin
-export const createRestaurant = async (req: Request, res: Response): Promise<void> => {
+export const createRestaurant = async (req: express.Request, res: express.Response): Promise<void> => {
   try {
-    const { 
-      name, 
-      cuisine, 
-      rating, 
-      priceRange, 
-      location, 
-      image, 
+    const {
+      name,
+      cuisine,
+      rating,
+      priceRange,
+      location,
+      image,
       type,
       // Dine-in specific fields
       openingHours,
@@ -56,12 +56,12 @@ export const createRestaurant = async (req: Request, res: Response): Promise<voi
       // Delivery specific fields
       deliveryTime,
       minOrder
-    } = req.body;
+    } = req.body as any;
 
     // Common validations
     const requiredFields = ['name', 'cuisine', 'rating', 'priceRange', 'location', 'type'];
-    const missingFields = requiredFields.filter(field => !req.body[type === 'DINE_IN' ? field : field]);
-    
+    const missingFields = requiredFields.filter(field => !(req.body as any)[type === 'DINE_IN' ? field : field]);
+
     if (missingFields.length > 0) {
       res.status(400).json({
         success: false,
@@ -141,15 +141,15 @@ export const createRestaurant = async (req: Request, res: Response): Promise<voi
 // @desc    Update restaurant
 // @route   PATCH /api/restaurants/:id
 // @access  Private/Admin
-export const updateRestaurant = async (req: Request, res: Response): Promise<void> => {
+export const updateRestaurant = async (req: express.Request, res: express.Response): Promise<void> => {
   try {
-    const { id } = req.params;
-    const { 
-      name, 
-      cuisine, 
-      rating, 
-      priceRange, 
-      location, 
+    const { id } = req.params as { id: string };
+    const {
+      name,
+      cuisine,
+      rating,
+      priceRange,
+      location,
       image,
       type,
       // Dine-in specific fields
@@ -158,7 +158,7 @@ export const updateRestaurant = async (req: Request, res: Response): Promise<voi
       // Delivery specific fields
       deliveryTime,
       minOrder
-    } = req.body;
+    } = req.body as any;
 
     // Input validation
     if (rating && (rating < 0 || rating > 5)) {
@@ -252,10 +252,10 @@ export const updateRestaurant = async (req: Request, res: Response): Promise<voi
 // @desc    Search restaurants by name, cuisine, or description
 // @route   GET /api/restaurants/search
 // @access  Public
-export const searchRestaurants = async (req: Request, res: Response): Promise<void> => {
+export const searchRestaurants = async (req: express.Request, res: express.Response): Promise<void> => {
   try {
-    const { q } = req.query;
-    
+    const { q } = req.query as { q?: string };
+
     if (!q) {
       res.status(400).json({
         success: false,
@@ -266,7 +266,7 @@ export const searchRestaurants = async (req: Request, res: Response): Promise<vo
 
     // Create a case-insensitive regex for the search query
     const searchRegex = new RegExp(q as string, 'i');
-    
+
     // Search in name, cuisine, and description fields
     const restaurants = await Restaurant.find({
       $or: [
@@ -293,10 +293,10 @@ export const searchRestaurants = async (req: Request, res: Response): Promise<vo
 // @desc    Delete restaurant
 // @route   DELETE /api/restaurants/:id
 // @access  Private/Admin
-export const deleteRestaurant = async (req: Request, res: Response): Promise<void> => {
+export const deleteRestaurant = async (req: express.Request, res: express.Response): Promise<void> => {
   try {
-    const { id } = req.params;
-    
+    const { id } = req.params as { id: string };
+
     const restaurant = await Restaurant.findByIdAndDelete(id);
 
     if (!restaurant) {

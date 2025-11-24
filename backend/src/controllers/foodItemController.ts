@@ -1,13 +1,13 @@
-import { Request, Response } from 'express';
+import express from 'express';
 import FoodItem from '../models/FoodItem';
 
-export const getFoodItems = async (req: Request, res: Response) => {
+export const getFoodItems = async (req: express.Request, res: express.Response) => {
     try {
         let query = {};
 
         // Check if restaurantId is provided in query params
-        if (req.query.restaurantId) {
-            query = { restaurantId: req.query.restaurantId };
+        if ((req.query as any).restaurantId) {
+            query = { restaurantId: (req.query as any).restaurantId };
         }
 
         const items = await FoodItem.find(query);
@@ -25,9 +25,9 @@ export const getFoodItems = async (req: Request, res: Response) => {
     }
 };
 
-export const getFoodItemById = async (req: Request, res: Response) => {
+export const getFoodItemById = async (req: express.Request, res: express.Response) => {
     try {
-        const item = await FoodItem.findById(req.params.id);
+        const item = await FoodItem.findById((req.params as any).id);
 
         if (!item) {
             return res.status(404).json({
@@ -48,9 +48,9 @@ export const getFoodItemById = async (req: Request, res: Response) => {
     }
 };
 
-export const createFoodItem = async (req: Request, res: Response) => {
+export const createFoodItem = async (req: express.Request, res: express.Response) => {
     try {
-        const item = await FoodItem.create(req.body);
+        const item = await FoodItem.create(req.body as any);
         res.status(201).json({
             success: true,
             data: item
@@ -63,9 +63,9 @@ export const createFoodItem = async (req: Request, res: Response) => {
     }
 };
 
-export const updateFoodItem = async (req: Request, res: Response) => {
+export const updateFoodItem = async (req: express.Request, res: express.Response) => {
     try {
-        const item = await FoodItem.findByIdAndUpdate(req.params.id, req.body, {
+        const item = await FoodItem.findByIdAndUpdate((req.params as any).id, req.body as any, {
             new: true,
             runValidators: true
         });
@@ -89,9 +89,9 @@ export const updateFoodItem = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteFoodItem = async (req: Request, res: Response) => {
+export const deleteFoodItem = async (req: express.Request, res: express.Response) => {
     try {
-        const item = await FoodItem.findByIdAndDelete(req.params.id);
+        const item = await FoodItem.findByIdAndDelete((req.params as any).id);
 
         if (!item) {
             return res.status(404).json({
