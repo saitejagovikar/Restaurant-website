@@ -1,8 +1,8 @@
 import { Restaurant } from '@models/Restaurant';
 import { FoodItem } from '@models/FoodItem';
 
-// Use a hardcoded URL to ensure consistency
-const BASE_URL = 'http://localhost:5002/api';
+// Production backend URL on Render
+const BASE_URL = 'https://restaurant-website-168p.onrender.com/api';
 
 export interface RestaurantFormData {
   _id?: string;
