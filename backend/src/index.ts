@@ -24,6 +24,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
   const allowedOrigins = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    'https://restaurant-website-gilt-tau.vercel.app', // Production frontend
     process.env.FRONTEND_URL // Add production frontend URL from env
   ].filter(Boolean); // Remove undefined values
 
