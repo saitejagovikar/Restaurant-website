@@ -3,7 +3,14 @@ import FoodItem from '../models/FoodItem';
 
 export const getFoodItems = async (req: Request, res: Response) => {
     try {
-        const items = await FoodItem.find();
+        let query = {};
+
+        // Check if restaurantId is provided in query params
+        if (req.query.restaurantId) {
+            query = { restaurantId: req.query.restaurantId };
+        }
+
+        const items = await FoodItem.find(query);
 
         res.status(200).json({
             success: true,

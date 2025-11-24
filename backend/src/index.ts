@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db';
 import restaurantRoutes from './routes/restaurantRoutes';
 import foodItemRoutes from './routes/foodItemRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 
 dotenv.config();
 
@@ -21,9 +22,7 @@ app.use((req, res, next) => {
   // CORS headers configuration
   const allowedOrigins = [
     'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:3001',
-    'http://127.0.0.1:3001'
+    'http://127.0.0.1:3000'
   ];
 
   const origin = req.headers.origin as string;
@@ -31,7 +30,7 @@ app.use((req, res, next) => {
   // Set CORS headers if origin is in allowed list
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
   }
@@ -51,6 +50,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/food-items', foodItemRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Root route
 app.get('/', (req, res) => {
