@@ -1,4 +1,5 @@
 import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
@@ -8,14 +9,14 @@ import uploadRoutes from './routes/uploadRoutes';
 
 dotenv.config();
 
-const app = express();
+const app: express.Application = express();
 const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB
 connectDB();
 
 // Enable CORS for all routes
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   // Log all requests with timestamp and method
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
 
@@ -44,8 +45,8 @@ app.use((req, res, next) => {
 });
 
 // Body parser middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json() as express.RequestHandler);
+app.use(express.urlencoded({ extended: true }) as express.RequestHandler);
 
 // Routes
 app.use('/api/restaurants', restaurantRoutes);
@@ -53,7 +54,7 @@ app.use('/api/food-items', foodItemRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // Root route
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.json({
     message: 'Restaurant Listing API',
     version: '1.0.0',
@@ -64,17 +65,16 @@ app.get('/', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({
-    success: false,
-    message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : 'Internal Server Error'
+    error: 'Something went wrong!',
+    message: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
 });
 
 // 404 handler
-app.use((req: express.Request, res: express.Response) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     message: 'Route not found'
