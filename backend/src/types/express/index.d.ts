@@ -1,14 +1,22 @@
-import { Request, Response, NextFunction } from 'express';
+// Import the original types from Express
+import * as express from 'express';
 
 declare global {
   namespace Express {
+    // Extend the Request interface
     interface Request {
-      user?: any; // You can replace 'any' with your user type if you have one
-      file?: any; // For multer file uploads
-      files?: any[]; // For multiple file uploads
+      user?: any;
+      file?: any;
+      files?: any[];
     }
+    
+    // Re-export the types
+    export type Request = express.Request;
+    export type Response = express.Response;
+    export type NextFunction = express.NextFunction;
+    export type Application = express.Application;
   }
 }
 
-// This makes the file a module
-export {};
+export = express;
+export as namespace Express;

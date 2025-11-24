@@ -1,7 +1,7 @@
 import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from 'express';
 import connectDB from './config/db';
 import restaurantRoutes from './routes/restaurantRoutes';
 import foodItemRoutes from './routes/foodItemRoutes';
@@ -9,7 +9,7 @@ import uploadRoutes from './routes/uploadRoutes';
 
 dotenv.config();
 
-const app: express.Application = express();
+const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB
@@ -45,8 +45,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // Body parser middleware
-app.use(express.json() as express.RequestHandler);
-app.use(express.urlencoded({ extended: true }) as express.RequestHandler);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/restaurants', restaurantRoutes);
