@@ -8,17 +8,32 @@ interface HeroBannerProps {
 }
 
 const HeroBanner: React.FC<HeroBannerProps> = ({ searchQuery, onSearchChange, onSearchSubmit }) => {
+  const [videoLoaded, setVideoLoaded] = React.useState(false);
+
   return (
     <div className="relative w-screen h-screen min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Video */}
+      
+      {/* Background Wrapper */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
+
+        {/* Blur Loading Overlay */}
+        <div
+          className={`absolute inset-0 backdrop-blur-3xl bg-black/50 transition-opacity duration-700 ${
+            videoLoaded ? "opacity-0" : "opacity-100"
+          }`}
+        />
+
+        {/* Background Video */}
         <video
           autoPlay
           loop
           muted
           playsInline
           preload="auto"
-          className="absolute top-0 left-0 w-full h-full object-cover"
+          className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${
+            videoLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoadedData={() => setVideoLoaded(true)}
         >
           <source src="/herobanner.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -28,6 +43,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ searchQuery, onSearchChange, on
         <div className="absolute inset-0 bg-black/40 z-10"></div>
       </div>
 
+      {/* Content */}
       <div className="max-w-7xl mx-auto text-center px-4 relative z-10">
         <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <h1
