@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RestaurantFormData } from '../../services';
 import { FoodItem } from '../../models';
 import ImageUpload from './ImageUpload';
-import FoodItemManager from '../restaurant/FoodItemManager';
+import FoodItemManager from './FoodItemManager';
 
 interface AdminFormProps {
   initialValues?: Partial<RestaurantFormData>;

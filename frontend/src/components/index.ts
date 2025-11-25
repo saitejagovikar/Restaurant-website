@@ -7,11 +7,7 @@ export { default as AdminForm } from './admin/AdminForm';
 export { default as AdminTable } from './admin/AdminTable';
 export { default as ImageUpload } from './admin/ImageUpload';
 export { default as SkeletonTable } from './admin/SkeletonTable';
-
-// Restaurant components
-export { default as RestaurantCard } from './restaurant/RestaurantCard';
-export { default as FoodItemCard } from './restaurant/FoodItemCard';
-export { default as FoodItemManager } from './restaurant/FoodItemManager';
+export { default as FoodItemManager } from './admin/FoodItemManager';
 
 // Home components
 export { default as HeroBanner } from './home/HeroBanner';
@@ -21,6 +17,8 @@ export { default as FilterBar } from './home/FilterBar';
 export { default as SearchBar } from './home/SearchBar';
 export { default as SkeletonHeroBanner } from './home/SkeletonHeroBanner';
 export { default as SkeletonFilterBar } from './home/SkeletonFilterBar';
+export { default as RestaurantCard } from './home/RestaurantCard';
+export { default as FoodItemCard } from './home/FoodItemCard';
 
 // Shared components
 export { default as EmptyState } from './shared/EmptyState';
