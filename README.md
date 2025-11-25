@@ -27,43 +27,115 @@ restaurant-app/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB (local installation or MongoDB Atlas)
-- npm or yarn
 
-### 1. Backend Setup
+Before you begin, ensure you have the following installed on your machine:
+- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
+- **npm** (v9 or higher) - Comes with Node.js
+- **MongoDB** - Choose one option:
+  - **Option 1**: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Free cloud database - Recommended)
+  - **Option 2**: [Local MongoDB installation](https://www.mongodb.com/try/download/community)
+
+To verify your installations, run:
+```bash
+node --version  # Should show v18.0.0 or higher
+npm --version   # Should show v9.0.0 or higher
+```
+
+### Step-by-Step Installation
+
+#### 1. Clone or Extract the Project
+
+If you received a .zip file, extract it to your desired location. Then navigate to the project directory:
+```bash
+cd restaurant-app
+```
+
+#### 2. Backend Setup
 
 ```bash
 # Navigate to backend directory
 cd backend
 
-# Install dependencies
+# Install all dependencies
 npm install
 
-# Set up environment variables
+# Create environment configuration file
 cp .env.example .env
-# Edit .env file with your MongoDB connection string
+```
 
-# Start the development server
+**Configure Environment Variables:**
+
+Open the `.env` file in a text editor and update the following:
+
+```env
+# MongoDB Configuration
+MONGO_URI=your_mongodb_connection_string_here
+
+# Server Configuration
+PORT=5002
+
+# Environment
+NODE_ENV=development
+
+# Frontend URL for CORS
+FRONTEND_URL=http://localhost:3000
+
+# Cloudinary Configuration (for image uploads)
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
+
+**Important Notes:**
+- **MongoDB URI**: 
+  - For MongoDB Atlas: Get your connection string from your Atlas dashboard (it looks like: `mongodb+srv://username:password@cluster.mongodb.net/restaurant-db`)
+  - For Local MongoDB: Use `mongodb://localhost:27017/restaurant-db`
+- **Cloudinary**: Sign up for a free account at [Cloudinary](https://cloudinary.com/) to get your credentials for image uploads
+
+**Start the Backend Server:**
+```bash
 npm run dev
 ```
 
-The backend will run on `http://localhost:5002`
+You should see: `Server running on port 5002` and `MongoDB Connected`
 
-### 2. Frontend Setup
+The backend API will be available at `http://localhost:5002`
+
+#### 3. Frontend Setup
+
+Open a **new terminal window** (keep the backend running), then:
 
 ```bash
-# Navigate to frontend directory (from project root)
+# Navigate to frontend directory from project root
 cd frontend
 
-# Install dependencies
+# Install all dependencies
 npm install
 
 # Start the development server
 npm start
 ```
 
-The frontend will run on `http://localhost:3000`
+The frontend will automatically open in your browser at `http://localhost:3000`
+
+If it doesn't open automatically, manually navigate to `http://localhost:3000`
+
+### ✅ Verification
+
+Once both servers are running, you should see:
+- **Backend Terminal**: `Server running on port 5002` and `MongoDB Connected`
+- **Frontend Browser**: The restaurant app home page with a list of restaurants
+
+### 🌱 Seeding Sample Data (Optional)
+
+To populate your database with sample restaurants:
+
+```bash
+# In the backend directory
+npm run seed
+```
+
+This will add several example restaurants to your database.
 
 ## 📡 API Endpoints
 

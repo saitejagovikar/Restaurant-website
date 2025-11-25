@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getFoodItemsByRestaurant, createFoodItem, updateFoodItem, deleteFoodItem } from '../../services/api';
 import { FoodItem } from '../../models/FoodItem';
-import ImageUpload from '../shared/ImageUpload';
+import ImageUpload from '../admin/ImageUpload';
 import { useToast } from '../../hooks/useToast';
 
 interface FoodItemManagerProps {
@@ -179,9 +179,9 @@ const FoodItemManager: React.FC<FoodItemManagerProps> = ({ restaurantId, restaur
                                 max="5"
                                 step="0.1"
                                 value={currentItem.rating ?? ''}
-                                onChange={(e) => setCurrentItem({ 
-                                    ...currentItem, 
-                                    rating: e.target.value === '' ? undefined : Number(e.target.value) 
+                                onChange={(e) => setCurrentItem({
+                                    ...currentItem,
+                                    rating: e.target.value === '' ? undefined : Number(e.target.value)
                                 })}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                                 placeholder="0-5"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RestaurantFormData } from '../../services';
 import { FoodItem } from '../../models';
-import ImageUpload from '../shared/ImageUpload';
+import ImageUpload from './ImageUpload';
 import FoodItemManager from '../restaurant/FoodItemManager';
 
 interface AdminFormProps {
@@ -32,7 +32,7 @@ const AdminForm: React.FC<AdminFormProps> = ({
     foodItems: [],
     ...initialValues
   });
-  
+
   const [foodItems, setFoodItems] = useState<FoodItem[]>(() => {
     // Ensure we have a proper array of FoodItem objects
     const initialFoodItems = initialValues?.foodItems || [];
