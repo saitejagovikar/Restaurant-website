@@ -20,5 +20,7 @@ export { default as HeroBanner } from './shared/HeroBanner';
 export { default as ImageUpload } from './shared/ImageUpload';
 export { default as SearchBar } from './shared/SearchBar';
 export { default as SkeletonCard } from './shared/SkeletonCard';
+export { default as SkeletonHeroBanner } from './shared/SkeletonHeroBanner';
+export { default as SkeletonFilterBar } from './shared/SkeletonFilterBar';
 export { default as SkeletonTable } from './shared/SkeletonTable';
 export { default as Toaster } from './shared/Toaster';

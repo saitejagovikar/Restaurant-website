@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Restaurant, FoodItem } from '../models';
 import { getRestaurants, getFoodItems } from '../services';
-import { 
-  HeroBanner, 
-  RestaurantCard, 
-  CategoryCarousel, 
-  FilterBar, 
-  SkeletonCard, 
-  FoodItemCard, 
-  EmptyState, 
-  DeliveryToggle 
+import {
+  HeroBanner,
+  RestaurantCard,
+  CategoryCarousel,
+  FilterBar,
+  SkeletonCard,
+  SkeletonHeroBanner,
+  SkeletonFilterBar,
+  FoodItemCard,
+  EmptyState,
+  DeliveryToggle
 } from '../components';
 import { usePageLoader } from '../hooks';
 
@@ -172,10 +174,20 @@ const Home: React.FC = () => {
   const fetchRestaurants = async () => {
     try {
       setLoading(true);
+      const startTime = Date.now();
+
       const [restaurantsData, foodItemsData] = await Promise.all([
         getRestaurants(),
         getFoodItems()
       ]);
+
+      // Ensure skeleton shows for at least 800ms for better UX
+      const elapsedTime = Date.now() - startTime;
+      const minDisplayTime = 800;
+      if (elapsedTime < minDisplayTime) {
+        await new Promise(resolve => setTimeout(resolve, minDisplayTime - elapsedTime));
+      }
+
       setRestaurants(restaurantsData);
       setFoodItems(foodItemsData);
       setError(null);
@@ -214,23 +226,39 @@ const Home: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-            Restaurant Finder
-          </h1>
+      <div className="min-h-screen flex flex-col">
+        {/* Hero Banner Skeleton */}
+        <SkeletonHeroBanner />
 
-          <div className="mb-8">
-            <div className="h-12 bg-gray-300 rounded-lg animate-pulse mb-4"></div>
-            <div className="h-10 bg-gray-300 rounded-lg animate-pulse"></div>
+        <main className="flex-grow bg-gray-50">
+          {/* Category Carousel Skeleton */}
+          <div className="relative z-10 -mt-16 mb-8">
+            <div className="container mx-auto px-4">
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <div className="flex gap-4 overflow-hidden">
+                  {[...Array(6)].map((_, index) => (
+                    <div key={index} className="flex-shrink-0">
+                      <div className="w-24 h-24 bg-gray-200 rounded-xl animate-shimmer"></div>
+                      <div className="h-4 bg-gray-200 rounded mt-2 animate-shimmer"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, index) => (
-              <SkeletonCard key={index} />
-            ))}
+          <div className="container mx-auto px-4 pb-8">
+            {/* Filter Bar Skeleton */}
+            <SkeletonFilterBar />
+
+            {/* Cards Grid Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(9)].map((_, index) => (
+                <SkeletonCard key={index} />
+              ))}
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     );
   }
