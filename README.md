@@ -1,4 +1,5 @@
-[view project HERE]([https://www.mongodb.com/cloud/atlas](https://restaurant-website-gilt-tau.vercel.app))
+
+- **project**: [LINK](https://restaurant-website-gilt-tau.vercel.app) 
 
 # Restaurant App - Full Stack Application
 
